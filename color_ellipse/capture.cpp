@@ -89,18 +89,27 @@ int main ( int argc, char** argv)
 
         dilate(imgThreshold, imgThreshold, getStructuringElement(MORPH_ELLIPSE, Size(5,5)));
         erode(imgThreshold, imgThreshold, getStructuringElement(MORPH_ELLIPSE, Size(5,5)));
-        imshow("Threshold",imgThreshold);
         //cvtColor(imgThreshold,IMGBGR, CV_HSV2BGR);
         //cvtColor(imgThreshold,gray,CV_BGR2GRAY);
         //GaussianBlur(gray,gray,Size(9,9),2,2);
         //GaussianBlur(imgThreshold,imgThreshold,Size(9,9),2,2);
+        Mat im_flood=imgThreshold.clone();
+        floodFill(im_flood,cv::Point(0,0),Scalar(255));
         
-        //need to replace this with a find countours function that finds contours and approximates them with elipses.
+        bitwise_not(im_flood,im_flood);
+
+        imgThreshold=(im_flood|imgThreshold);
+
+        imshow("Threshold",imgThreshold);
+        
+
         findContours(imgThreshold,contours,hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0,0));
 
         vector<RotatedRect> minEllipse(contours.size());
+        vector<RotatedRect> minRect(contours.size());
         for (int i=0; i<contours.size(); i++)
         {
+            minRect[i]=minAreaRect(Mat(contours[i]));
             if(contours[i].size() >5)
             {
                 minEllipse[i]=fitEllipse(Mat(contours[i]));
@@ -113,9 +122,21 @@ int main ( int argc, char** argv)
 
             drawContours(drawing,contours,i,color,1,8,vector<Vec4i>(),0,Point());
             ellipse(drawing,minEllipse[i],color,2,8);
+
+            Point2f rect_points[4]; minRect[i].points(rect_points);
+            for(int k=0;k<4;k++)
+            {
+                line(drawing,rect_points[k],rect_points[(k+1)%4],color,1,8);
+            }
+        }
+        for(int l=0;l<contours.size();l++)
+        {
+            if(minEllipse[l].size.width>20)
+            {
+                cout <<"width is :"<< minEllipse[l].size.width<<"height is"<<minEllipse[l].size.height<<endl;
+            }
         }
 
-        
         imshow("Threshold Image", drawing);
 
         if(waitKey(30)==27)
