@@ -1,0 +1,5 @@
+To compile write
+g++ filenam.cpp -o filename $(pkg-config --libs opencv) imagetest
+
+also remember
+pkg-config --cflags opencv
