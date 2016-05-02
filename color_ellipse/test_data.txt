@@ -1,0 +1,29 @@
+here we go on some test data
+
+
+From 
+small circle width
+2 feet away = 185 pixels
+3 feet away = 120 pixels
+4 feet away = 90 pixels
+5 feet away = 72 pixels
+6 feet away = 58 pixels
+7 feet away = 49 pixels
+8 feet away = 44 pixels
+9 feet away = 37 pixels
+10 feet away = 33 pixels
+
+H=0-18 and 150-255 , 98-255 and 23-255
+
+scratch all that small circle data
+whole hoop
+2 feet away height 1200
+3 feet away height 480 ish
+4 feet away height is 370 ish
+5 feet away height is 300 ish
+6 feet away height is 255 ish
+7 feet away height is 225 ish
+8 feet away height is 190 ish
+9 feet away height is 167 ish
+10 feet away height is 152 ish
+0-5 and 155-255, 98 to 255 and 23 to 255
